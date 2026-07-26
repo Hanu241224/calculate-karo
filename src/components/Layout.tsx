@@ -4,11 +4,11 @@ import Sidebar from './Sidebar';
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
-    <div className="min-h-screen flex flex-col bg-[#F9F9FA]">
+    <div className="min-h-screen bg-[#F9F9FA]">
       <Navbar />
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex pt-16">
         <Sidebar />
-        <main className="flex-1 overflow-y-auto p-4 md:p-8">
+        <main className="flex-1 ml-64 p-4 md:p-8 min-h-[calc(100vh-4rem)]">
           <div className="max-w-7xl mx-auto">
             {children}
           </div>

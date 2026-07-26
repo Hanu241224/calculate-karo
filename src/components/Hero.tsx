@@ -31,12 +31,12 @@ const Hero: React.FC = () => {
         </p>
 
         <div className="flex items-center gap-4 mb-12">
-          <button className="bg-gray-900 text-white px-6 py-3.5 rounded-full font-medium hover:bg-black transition-colors flex items-center gap-2">
+          <button className="bg-gray-900 text-white px-7 py-4 rounded-full font-semibold hover:bg-black transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-gray-900/20 active:scale-95 flex items-center gap-2 group">
             Explore All Tools
-            <ArrowRight className="w-4 h-4" />
+            <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
           </button>
-          <button className="bg-white border border-blue-100 text-blue-600 px-6 py-3.5 rounded-full font-medium hover:bg-blue-50 transition-colors flex items-center gap-2 shadow-sm">
-            <Sparkles className="w-4 h-4" />
+          <button className="bg-white border border-blue-200 text-blue-700 px-7 py-4 rounded-full font-semibold hover:bg-blue-50 hover:border-blue-300 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-900/10 active:scale-95 flex items-center gap-2 shadow-sm group">
+            <Sparkles className="w-4 h-4 text-blue-500 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12" />
             Try Ask AI
           </button>
         </div>

@@ -3,7 +3,7 @@ import { Search, Sparkles, ChevronDown } from 'lucide-react';
 
 const Navbar: React.FC = () => {
   return (
-    <nav className="h-16 border-b border-gray-200 bg-white flex items-center justify-between px-6 sticky top-0 z-10">
+    <nav className="h-16 border-b border-gray-200 bg-white/80 backdrop-blur-md flex items-center justify-between px-6 fixed top-0 w-full z-50">
       <div className="flex items-center gap-2">
         <div className="w-10 h-10 rounded-full border-2 border-orange-500 flex items-center justify-center text-sm font-bold text-gray-800">
           <span className="text-blue-600">C</span>k
