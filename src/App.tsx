@@ -6,10 +6,12 @@ import ToolTemplate from './pages/ToolTemplate';
 import BlogArchiveTemplate from './pages/BlogArchiveTemplate';
 import BlogPostTemplate from './pages/BlogPostTemplate';
 import NotFound from './pages/NotFound';
+import ScrollToTop from './components/ScrollToTop';
 
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />

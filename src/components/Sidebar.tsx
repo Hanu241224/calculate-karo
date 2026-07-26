@@ -2,7 +2,12 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ChevronLeft, Heart, PlusSquare, DollarSign, Calendar, HelpCircle, ArrowRight } from 'lucide-react';
 
-const Sidebar: React.FC = () => {
+interface SidebarProps {
+  isMobileMenuOpen: boolean;
+  setIsMobileMenuOpen: (isOpen: boolean) => void;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   const location = useLocation();
 
   // Determine active category for dynamic sub-menu
@@ -19,10 +24,19 @@ const Sidebar: React.FC = () => {
   }[activeCategory];
 
   return (
-    <div className="w-60 bg-white border-r border-gray-200 flex flex-col fixed left-0 top-14 bottom-0 z-40 overflow-hidden no-shadow">
-      <div className="flex h-full">
-        {/* Main Icon Navigation */}
-        <div className="w-14 border-r border-gray-200 flex flex-col items-center py-4 bg-gray-50/50 z-10">
+    <>
+      {/* Mobile overlay */}
+      {isMobileMenuOpen && (
+        <div
+          className="fixed inset-0 bg-gray-900/50 z-30 md:hidden"
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
+
+      <div className={`w-60 bg-white border-r border-gray-200 flex flex-col fixed left-0 top-14 bottom-0 z-40 overflow-hidden no-shadow transition-transform duration-300 md:translate-x-0 ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        <div className="flex h-full">
+          {/* Main Icon Navigation */}
+          <div className="w-14 border-r border-gray-200 flex flex-col items-center py-4 bg-gray-50/50 z-10">
           <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-gray-300 text-gray-500 mb-6 hover:bg-white hover:text-gray-900 transition-colors active:scale-95 bg-white">
             <ChevronLeft className="w-4 h-4" />
           </button>
@@ -60,15 +74,16 @@ const Sidebar: React.FC = () => {
             <SubNavItem to={`/tool/${activeCategory}-6`} number="6" title="Data Analyzer" views="310K/mo" />
           </div>
 
-          <div className="p-4 border-t border-gray-100 sticky bottom-0 bg-white">
-             <Link to={`/category/${activeCategory}`} className="w-full flex items-center justify-center gap-2 bg-gray-900 text-white py-2 rounded-lg text-xs font-bold hover:bg-black transition-colors active:scale-95 group">
-               View all {categoryConfig?.count} tools
-               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-             </Link>
+            <div className="p-4 border-t border-gray-100 sticky bottom-0 bg-white">
+               <Link to={`/category/${activeCategory}`} className="w-full flex items-center justify-center gap-2 bg-gray-900 text-white py-2 rounded-lg text-xs font-bold hover:bg-black transition-colors active:scale-95 group">
+                 View all {categoryConfig?.count} tools
+                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+               </Link>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

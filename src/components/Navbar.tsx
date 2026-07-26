@@ -1,41 +1,54 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Sparkles, ChevronDown, Clock, TrendingUp, BookOpen, Calculator, DollarSign, Heart } from 'lucide-react';
+import { Search, Sparkles, ChevronDown, Clock, TrendingUp, BookOpen, Calculator, DollarSign, Heart, Menu } from 'lucide-react';
 
-const Navbar: React.FC = () => {
+interface NavbarProps {
+  isMobileMenuOpen: boolean;
+  setIsMobileMenuOpen: (isOpen: boolean) => void;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   const [isBlogMenuOpen, setIsBlogMenuOpen] = useState(false);
 
   return (
-    <nav className="h-14 border-b border-gray-300 bg-white/95 backdrop-blur-xl flex items-center justify-between px-5 fixed top-0 w-full z-50 transition-colors">
-      <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+    <nav className="h-14 border-b border-gray-300 bg-white/95 backdrop-blur-xl flex items-center justify-between px-4 md:px-5 fixed top-0 w-full z-50 transition-colors">
+      <div className="flex items-center gap-3">
+        <button
+          className="md:hidden p-1.5 -ml-1.5 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        >
+          <Menu className="w-5 h-5" />
+        </button>
+        <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
         <div className="w-8 h-8 rounded-full border-[1.5px] border-orange-500 flex items-center justify-center text-xs font-bold text-gray-800 bg-white">
           <span className="text-blue-600">C</span>k
         </div>
-        <div className="font-extrabold text-lg tracking-tight flex flex-col leading-none">
+        <div className="font-extrabold text-lg tracking-tight flex flex-col leading-none hidden sm:flex">
           <span className="text-gray-900">Calculate</span>
           <span className="text-[9px] text-gray-500 font-bold uppercase tracking-widest mt-0.5">Karo</span>
         </div>
       </Link>
+      </div>
 
-      <div className="flex-1 max-w-2xl mx-8">
+      <div className="flex-1 max-w-2xl mx-4 md:mx-8">
         <div className="relative">
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <Search className="h-4 w-4 text-gray-400" />
+          <div className="absolute inset-y-0 left-0 pl-2.5 md:pl-3 flex items-center pointer-events-none">
+            <Search className="h-3.5 w-3.5 md:h-4 md:w-4 text-gray-400" />
           </div>
           <input
             type="text"
-            className="block w-full pl-10 pr-3 py-1.5 border border-gray-300 rounded-full bg-gray-50 text-xs font-medium placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+            className="block w-full pl-8 md:pl-10 pr-3 py-1.5 border border-gray-300 rounded-full bg-gray-50 text-xs font-medium placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-colors"
             placeholder="Search tools..."
           />
-          <div className="absolute inset-y-0 right-0 pr-2.5 flex items-center pointer-events-none">
+          <div className="absolute inset-y-0 right-0 pr-2.5 hidden sm:flex items-center pointer-events-none">
             <span className="text-gray-400 text-[10px] border border-gray-200 rounded px-1.5 py-0.5 bg-white font-medium">⌘K</span>
           </div>
         </div>
       </div>
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-2 md:gap-4">
         <div
-          className="h-14 flex items-center"
+          className="h-14 hidden md:flex items-center"
           onMouseEnter={() => setIsBlogMenuOpen(true)}
           onMouseLeave={() => setIsBlogMenuOpen(false)}
         >
@@ -44,8 +57,8 @@ const Navbar: React.FC = () => {
           </Link>
 
           {/* Mega Menu Overlay */}
-          <div className={`absolute top-14 left-0 w-full bg-white border-b border-gray-200 transition-all duration-300 origin-top overflow-hidden no-shadow z-40 ${isBlogMenuOpen ? 'opacity-100 max-h-[500px] visible' : 'opacity-0 max-h-0 invisible'}`}>
-            <div className="max-w-[1400px] mx-auto p-8 grid grid-cols-12 gap-8 ml-60">
+          <div className={`absolute top-14 left-0 w-full bg-white border-b border-gray-200 transition-all duration-300 origin-top overflow-hidden no-shadow z-40 ${isBlogMenuOpen ? 'opacity-100 max-h-[500px] visible pointer-events-auto delay-0' : 'opacity-0 max-h-0 invisible pointer-events-none delay-100'}`}>
+            <div className="max-w-[1400px] mx-auto p-8 grid grid-cols-12 gap-8 md:ml-60">
               {/* Categories */}
               <div className="col-span-3 space-y-4">
                 <h3 className="text-xs font-black text-gray-400 uppercase tracking-widest flex items-center gap-2">
@@ -103,11 +116,11 @@ const Navbar: React.FC = () => {
             </div>
           </div>
         </div>
-        <Link to="/tool/ask-ai" className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-[#3635B8] bg-blue-50 border border-blue-100 rounded-full hover:bg-blue-100 transition-colors">
+        <Link to="/tool/ask-ai" className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-[#3635B8] bg-blue-50 border border-blue-100 rounded-full hover:bg-blue-100 transition-colors">
           <Sparkles className="h-3.5 w-3.5" />
           Ask AI
         </Link>
-        <button className="px-4 py-1.5 text-xs font-bold text-white bg-gray-900 rounded-full hover:bg-black transition-colors active:scale-95">
+        <button className="px-3 md:px-4 py-1.5 text-xs font-bold text-white bg-gray-900 rounded-full hover:bg-black transition-colors active:scale-95 whitespace-nowrap">
           Sign in
         </button>
       </div>
