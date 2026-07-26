@@ -2,11 +2,54 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --primary-color: #3b82f6; /* Adjust to match Figma */
+@layer base {
+  body {
+    @apply antialiased text-gray-900 bg-[#f8fafc] font-sans selection:bg-blue-200 selection:text-blue-900;
+  }
 }
 
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  background-color: #f8fafc;
+@layer utilities {
+  .animate-in {
+    animation: animate-in 0.5s ease-out forwards;
+  }
+
+  .fade-in {
+    opacity: 0;
+    animation-name: fade-in;
+  }
+
+  .slide-in-from-bottom-4 {
+    transform: translateY(1rem);
+    animation-name: slide-in-from-bottom;
+  }
+
+  .slide-in-from-bottom-2 {
+    transform: translateY(0.5rem);
+    animation-name: slide-in-from-bottom;
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-in-from-bottom {
+  to { transform: translateY(0); }
+}
+
+/* Custom Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: #94a3b8;
 }

@@ -1,13 +1,26 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
-import Hero from './components/Hero';
-import Categories from './components/Categories';
+import Home from './pages/Home';
+import CategoryTemplate from './pages/CategoryTemplate';
+import ToolTemplate from './pages/ToolTemplate';
+import BlogArchiveTemplate from './pages/BlogArchiveTemplate';
+import BlogPostTemplate from './pages/BlogPostTemplate';
+import NotFound from './pages/NotFound';
 
 function App() {
   return (
-    <Layout>
-      <Hero />
-      <Categories />
-    </Layout>
+    <Router>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/category/:slug" element={<CategoryTemplate />} />
+          <Route path="/tool/:slug" element={<ToolTemplate />} />
+          <Route path="/blog" element={<BlogArchiveTemplate />} />
+          <Route path="/blog/:slug" element={<BlogPostTemplate />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Layout>
+    </Router>
   );
 }
 

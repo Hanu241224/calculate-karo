@@ -1,7 +1,9 @@
 import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { ChevronLeft, Heart, PlusSquare, DollarSign, Calendar, HelpCircle, ArrowRight } from 'lucide-react';
 
 const Sidebar: React.FC = () => {
+  const location = useLocation();
   return (
     <div className="w-64 bg-white border-r border-gray-200 flex flex-col fixed left-0 top-16 bottom-0 z-40 overflow-hidden shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
       <div className="flex h-full">
@@ -12,10 +14,10 @@ const Sidebar: React.FC = () => {
           </button>
 
           <nav className="flex flex-col gap-6 w-full items-center flex-1">
-            <NavItem icon={<Heart className="w-5 h-5" />} label="Health" />
-            <NavItem icon={<PlusSquare className="w-5 h-5" />} label="Maths" active />
-            <NavItem icon={<DollarSign className="w-5 h-5" />} label="Finance" />
-            <NavItem icon={<Calendar className="w-5 h-5" />} label="Age & Date" />
+            <NavItem to="/category/health" icon={<Heart className="w-5 h-5" />} label="Health" active={location.pathname.includes('/health')} />
+            <NavItem to="/category/maths" icon={<PlusSquare className="w-5 h-5" />} label="Maths" active={location.pathname === '/' || location.pathname.includes('/maths')} />
+            <NavItem to="/category/finance" icon={<DollarSign className="w-5 h-5" />} label="Finance" active={location.pathname.includes('/finance')} />
+            <NavItem to="/category/age-date" icon={<Calendar className="w-5 h-5" />} label="Age & Date" active={location.pathname.includes('/age-date')} />
           </nav>
 
           <button className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-50 text-gray-400 hover:bg-gray-100 hover:text-gray-700 transition-all shadow-inner">
@@ -36,19 +38,19 @@ const Sidebar: React.FC = () => {
           </div>
 
           <div className="flex-1 overflow-y-auto py-2">
-            <SubNavItem number="1" title="Percentage" views="1.4M/mo" isHot />
-            <SubNavItem number="2" title="Scientific Calc" views="1.1M/mo" />
-            <SubNavItem number="3" title="Fractions" views="760K/mo" />
-            <SubNavItem number="4" title="Square Root" views="540K/mo" />
-            <SubNavItem number="5" title="LCM & HCF" views="420K/mo" />
-            <SubNavItem number="6" title="Statistics" views="310K/mo" />
+            <SubNavItem to="/tool/percentage" number="1" title="Percentage" views="1.4M/mo" isHot />
+            <SubNavItem to="/tool/scientific-calc" number="2" title="Scientific Calc" views="1.1M/mo" />
+            <SubNavItem to="/tool/fractions" number="3" title="Fractions" views="760K/mo" />
+            <SubNavItem to="/tool/square-root" number="4" title="Square Root" views="540K/mo" />
+            <SubNavItem to="/tool/lcm-hcf" number="5" title="LCM & HCF" views="420K/mo" />
+            <SubNavItem to="/tool/statistics" number="6" title="Statistics" views="310K/mo" />
           </div>
 
           <div className="p-4 bg-gradient-to-t from-white via-white to-transparent sticky bottom-0">
-             <button className="w-full flex items-center justify-center gap-2 bg-[#3635B8] text-white py-2.5 rounded-xl text-sm font-medium hover:bg-blue-800 transition-all hover:shadow-lg hover:shadow-blue-900/20 active:scale-[0.98]">
+             <Link to="/category/maths" className="w-full flex items-center justify-center gap-2 bg-[#3635B8] text-white py-2.5 rounded-xl text-sm font-medium hover:bg-blue-800 transition-all hover:shadow-lg hover:shadow-blue-900/20 active:scale-[0.98] group">
                View all 34 tools
                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-             </button>
+             </Link>
           </div>
         </div>
       </div>
@@ -56,17 +58,17 @@ const Sidebar: React.FC = () => {
   );
 };
 
-const NavItem: React.FC<{ icon: React.ReactNode; label: string; active?: boolean }> = ({ icon, label, active }) => (
-  <div className={`flex flex-col items-center gap-1.5 w-full cursor-pointer group transition-colors ${active ? 'text-blue-600' : 'text-gray-400 hover:text-gray-700'}`}>
+const NavItem: React.FC<{ to: string; icon: React.ReactNode; label: string; active?: boolean }> = ({ to, icon, label, active }) => (
+  <Link to={to} className={`flex flex-col items-center gap-1.5 w-full cursor-pointer group transition-colors ${active ? 'text-blue-600' : 'text-gray-400 hover:text-gray-700'}`}>
     <div className={`w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-300 ${active ? 'bg-blue-50 shadow-inner border border-blue-100 scale-110' : 'group-hover:bg-gray-50 group-hover:scale-105 group-active:scale-95'}`}>
       {icon}
     </div>
     <span className="text-[10px] font-semibold text-center leading-tight whitespace-pre-wrap tracking-wide">{label.replace(' ', '\n')}</span>
-  </div>
+  </Link>
 );
 
-const SubNavItem: React.FC<{ number: string; title: string; views: string; isHot?: boolean }> = ({ number, title, views, isHot }) => (
-  <button className="w-full px-5 py-3.5 flex items-start gap-3 hover:bg-white/80 transition-all text-left group relative overflow-hidden">
+const SubNavItem: React.FC<{ to: string; number: string; title: string; views: string; isHot?: boolean }> = ({ to, number, title, views, isHot }) => (
+  <Link to={to} className="w-full px-5 py-3.5 flex items-start gap-3 hover:bg-white/80 transition-all text-left group relative overflow-hidden">
     <div className="absolute inset-0 bg-gradient-to-r from-blue-50/0 to-blue-50/0 group-hover:from-blue-50/50 group-hover:to-transparent transition-all opacity-0 group-hover:opacity-100" />
     <div className="w-6 h-6 rounded-full bg-gray-100 border border-gray-200 text-gray-500 group-hover:border-blue-200 group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors text-xs flex items-center justify-center font-bold shrink-0 mt-0.5 shadow-sm">
       {number}
@@ -80,7 +82,7 @@ const SubNavItem: React.FC<{ number: string; title: string; views: string; isHot
       </div>
       <span className="text-xs text-gray-400 group-hover:text-gray-500 transition-colors block mt-0.5">{views}</span>
     </div>
-  </button>
+  </Link>
 );
 
 export default Sidebar;
