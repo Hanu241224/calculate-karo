@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { PlusSquare } from 'lucide-react';
+import { RotateCcw } from 'lucide-react';
 
 const QuickCalc: React.FC = () => {
   const [display, setDisplay] = useState('0');
@@ -9,102 +9,114 @@ const QuickCalc: React.FC = () => {
 
   const formatNumber = (numStr: string) => {
     if (numStr === 'Error') return numStr;
-    const parts = numStr.split('.');
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    return parts.join('.');
+    const numericValue = Number(numStr);
+    if (!Number.isFinite(numericValue)) return numStr;
+    return numericValue.toLocaleString('en-IN', { maximumFractionDigits: 8 });
   };
 
   const calculate = (a: number, b: number, op: string) => {
     switch (op) {
       case '+': return a + b;
       case '-': return a - b;
-      case '×': return a * b;
-      case '÷': return b === 0 ? NaN : a / b;
+      case 'x': return a * b;
+      case '/': return b === 0 ? NaN : a / b;
       default: return b;
     }
   };
 
+  const clearCalculator = () => {
+    setDisplay('0');
+    setPreviousValue(null);
+    setOperator(null);
+    setWaitingForNewValue(false);
+  };
+
   const handleButtonClick = (btn: string) => {
-    if (['+', '-', '×', '÷'].includes(btn)) {
+    if (['+', '-', 'x', '/'].includes(btn)) {
       if (operator && !waitingForNewValue && previousValue !== null) {
-        const result = calculate(previousValue, parseFloat(display), operator);
-        if (isNaN(result)) {
-           setDisplay('Error');
-           setPreviousValue(null);
-           setOperator(null);
-        } else {
-           setDisplay(String(result));
-           setPreviousValue(result);
+        const result = calculate(previousValue, Number(display), operator);
+        if (!Number.isFinite(result)) {
+          clearCalculator();
+          setDisplay('Error');
+          return;
         }
+        setDisplay(String(result));
+        setPreviousValue(result);
       } else {
-        setPreviousValue(parseFloat(display));
+        setPreviousValue(Number(display));
       }
       setOperator(btn);
       setWaitingForNewValue(true);
-    } else if (btn === '=') {
+      return;
+    }
+
+    if (btn === '=') {
       if (operator && previousValue !== null) {
-        const result = calculate(previousValue, parseFloat(display), operator);
-        if (isNaN(result)) {
-           setDisplay('Error');
+        const result = calculate(previousValue, Number(display), operator);
+        if (!Number.isFinite(result)) {
+          clearCalculator();
+          setDisplay('Error');
         } else {
-           setDisplay(String(result));
+          setDisplay(String(result));
+          setPreviousValue(null);
+          setOperator(null);
+          setWaitingForNewValue(true);
         }
-        setPreviousValue(null);
-        setOperator(null);
-        setWaitingForNewValue(true);
       }
-    } else if (btn === '.') {
+      return;
+    }
+
+    if (btn === '.') {
       if (waitingForNewValue) {
         setDisplay('0.');
         setWaitingForNewValue(false);
       } else if (!display.includes('.')) {
-        setDisplay(display + '.');
+        setDisplay(`${display}.`);
       }
+      return;
+    }
+
+    if (waitingForNewValue || display === '0' || display === 'Error') {
+      setDisplay(btn);
+      setWaitingForNewValue(false);
     } else {
-      // Numbers
-      if (waitingForNewValue || display === '0' || display === 'Error') {
-        setDisplay(btn);
-        setWaitingForNewValue(false);
-      } else {
-        setDisplay(display + btn);
-      }
+      setDisplay(`${display}${btn}`);
     }
   };
 
-  // Add a clear button handler for convenience, mapping it to clicking "C" if we had one, but we'll reset on 'Error' for now.
-
   return (
-    <div className="bg-white rounded-2xl border-2 border-gray-200 overflow-hidden no-shadow transition-colors hover:border-gray-300">
-      <div className="bg-gray-50 px-3 py-2 flex items-center justify-between border-b border-gray-200">
-        <span className="font-extrabold text-[#3635B8] text-xs uppercase tracking-wider">Quick Calc</span>
+    <div className="overflow-hidden rounded-lg border border-gray-800 bg-gray-950 smooth-control hover:border-gray-700">
+      <div className="flex items-center justify-between border-b border-gray-800 bg-gray-900 px-3 py-2">
+        <span className="eyebrow text-[#f4510b]">Quick Calc</span>
         <button
-           onClick={() => { setDisplay('0'); setPreviousValue(null); setOperator(null); setWaitingForNewValue(false); }}
-           className="w-6 h-6 rounded bg-blue-600 text-white flex items-center justify-center hover:bg-blue-700 transition-colors"
-           title="Clear Calculator"
+          onClick={clearCalculator}
+          className="flex h-6 w-6 items-center justify-center rounded-md bg-orange-600 text-white smooth-control hover:bg-orange-700"
+          title="Clear calculator"
+          aria-label="Clear calculator"
         >
-          <PlusSquare className="w-3.5 h-3.5" />
+          <RotateCcw className="w-3.5 h-3.5" />
         </button>
       </div>
 
       <div className="p-3">
-        <div className="bg-gray-50 rounded-xl p-3 text-right mb-3 border border-gray-200">
-          <div className="text-[10px] text-gray-400 font-bold uppercase mb-0.5">Result {operator && !waitingForNewValue && `(${operator})`}</div>
-          <div className="text-2xl font-black text-gray-900 tracking-tight truncate" title={display}>
+        <div className="mb-3 rounded-lg border border-gray-800 bg-gray-900 p-3 text-right">
+          <div className="mb-0.5 text-[11px] font-semibold uppercase text-gray-400">Result {operator && !waitingForNewValue && `(${operator})`}</div>
+          <div className="truncate text-2xl font-semibold text-white" title={display}>
             {formatNumber(display)}
           </div>
         </div>
 
         <div className="grid grid-cols-4 gap-1.5">
-          {['7', '8', '9', '÷', '4', '5', '6', '×', '1', '2', '3', '-', '0', '.', '=', '+'].map((btn, i) => (
+          {['7', '8', '9', '/', '4', '5', '6', 'x', '1', '2', '3', '-', '0', '.', '=', '+'].map((btn) => (
             <button
-              key={i}
+              key={btn}
               onClick={() => handleButtonClick(btn)}
               className={`
-                h-9 rounded-lg text-xs font-bold transition-all active:scale-95 flex items-center justify-center border
-                ${btn === '=' ? 'bg-[#3635B8] border-[#3635B8] text-white hover:bg-blue-800' :
-                  ['÷', '×', '-', '+'].includes(btn) ? 'bg-blue-50 border-blue-100 text-blue-700 hover:bg-blue-100' :
-                  'bg-white border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-gray-300'}
-                ${operator === btn && waitingForNewValue ? 'ring-2 ring-blue-400' : ''}
+                flex h-9 items-center justify-center rounded-lg border text-xs font-semibold smooth-control active:scale-95
+                ${btn === '=' ? 'bg-[#f4510b] border-[#f4510b] text-white hover:bg-orange-800' :
+                ['/', 'x', '-', '+'].includes(btn) ? 'bg-orange-500/10 border-orange-100 text-orange-400 hover:bg-orange-500/20' :
+                  'bg-gray-950 border-gray-800 text-gray-200 hover:bg-gray-900 hover:border-gray-700'}
+                ${operator === btn && waitingForNewValue ? 'ring-2 ring-orange-400' : ''}
               `}
             >
               {btn}

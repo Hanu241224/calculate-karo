@@ -1,114 +1,157 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { ChevronLeft, Heart, PlusSquare, DollarSign, Calendar, HelpCircle, ArrowRight } from 'lucide-react';
+import { ArrowRight, Calendar, ChevronLeft, ChevronRight, DollarSign, Heart, HelpCircle, PlusSquare } from 'lucide-react';
+import { categories, findCategory, findTool } from '../data/content';
+import type { CategorySlug } from '../data/content';
+import { Link } from '../lib/router';
+import { useLocation } from '../lib/router-hooks';
 
 interface SidebarProps {
   isMobileMenuOpen: boolean;
+  isSubMenuCollapsed: boolean;
   setIsMobileMenuOpen: (isOpen: boolean) => void;
+  setIsSubMenuCollapsed: (isCollapsed: boolean) => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
+const getActiveCategorySlug = (pathname: string): CategorySlug => {
+  const categoryFromPath = categories.find((category) => pathname.includes(category.slug));
+  const tool = findTool(pathname.split('/tool/')[1]);
+
+  return categoryFromPath?.slug ?? tool?.categorySlug ?? 'maths';
+};
+
+const Sidebar: React.FC<SidebarProps> = ({ isMobileMenuOpen, isSubMenuCollapsed, setIsMobileMenuOpen, setIsSubMenuCollapsed }) => {
   const location = useLocation();
-
-  // Determine active category for dynamic sub-menu
-  let activeCategory = 'maths';
-  if (location.pathname.includes('/health')) activeCategory = 'health';
-  if (location.pathname.includes('/finance')) activeCategory = 'finance';
-  if (location.pathname.includes('/age-date')) activeCategory = 'age-date';
-
-  const categoryConfig = {
-    'maths': { title: 'Maths', icon: <PlusSquare className="w-4 h-4" />, count: '34' },
-    'health': { title: 'Health', icon: <Heart className="w-4 h-4" />, count: '18' },
-    'finance': { title: 'Finance', icon: <DollarSign className="w-4 h-4" />, count: '22' },
-    'age-date': { title: 'Age & Date', icon: <Calendar className="w-4 h-4" />, count: '12' },
-  }[activeCategory];
+  const activeCategorySlug = getActiveCategorySlug(location.pathname);
+  const activeToolSlug = location.pathname.split('/tool/')[1];
+  const categoryConfig = findCategory(activeCategorySlug) ?? categories[1];
+  const showSubMenu = !isSubMenuCollapsed || isMobileMenuOpen;
 
   return (
     <>
-      {/* Mobile overlay */}
       {isMobileMenuOpen && (
         <div
-          className="fixed inset-0 bg-gray-900/50 z-30 md:hidden"
+          className="fixed inset-0 bg-gray-950/40 z-30 md:hidden"
           onClick={() => setIsMobileMenuOpen(false)}
         />
       )}
 
-      <div className={`w-60 bg-white border-r border-gray-200 flex flex-col fixed left-0 top-14 bottom-0 z-40 overflow-hidden no-shadow transition-transform duration-300 md:translate-x-0 ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-        <div className="flex h-full">
-          {/* Main Icon Navigation */}
-          <div className="w-14 flex flex-col items-center py-4 bg-gray-50/50 z-10">
-          <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-gray-300 text-gray-500 mb-6 hover:bg-white hover:text-gray-900 transition-colors active:scale-95 bg-white">
-            <ChevronLeft className="w-4 h-4" />
+      <aside className={`fixed left-0 top-14 bottom-0 z-40 flex overflow-hidden bg-gray-950 smooth-control w-64 ${isSubMenuCollapsed ? 'md:w-16' : 'md:w-64'} ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}>
+        <div className="flex h-full w-16 shrink-0 flex-col bg-[#0f0f0f]">
+          <button
+            className="m-3 flex h-10 items-center justify-center rounded-lg border border-gray-800 bg-gray-950 text-gray-400 smooth-control hover:border-gray-700 hover:text-white active:scale-95"
+            onClick={() => {
+              if (isMobileMenuOpen) {
+                setIsMobileMenuOpen(false);
+                return;
+              }
+              setIsSubMenuCollapsed(!isSubMenuCollapsed);
+            }}
+            aria-label={isSubMenuCollapsed ? 'Expand category panel' : 'Collapse category panel'}
+          >
+            {isSubMenuCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
           </button>
 
-          <nav className="flex flex-col gap-4 w-full items-center flex-1">
-            <NavItem to="/category/health" icon={<Heart className="w-4 h-4" />} label="Health" active={activeCategory === 'health'} />
-            <NavItem to="/category/maths" icon={<PlusSquare className="w-4 h-4" />} label="Maths" active={activeCategory === 'maths'} />
-            <NavItem to="/category/finance" icon={<DollarSign className="w-4 h-4" />} label="Finance" active={activeCategory === 'finance'} />
-            <NavItem to="/category/age-date" icon={<Calendar className="w-4 h-4" />} label="Age/Date" active={activeCategory === 'age-date'} />
+          <nav className="flex flex-1 flex-col gap-1" aria-label="Calculator categories">
+            {categories.map((category) => (
+              <NavItem
+                key={category.slug}
+                to={`/category/${category.slug}`}
+                icon={getCategoryIcon(category.slug)}
+                label={category.title}
+                active={activeCategorySlug === category.slug}
+              />
+            ))}
           </nav>
 
-          <button className="w-8 h-8 flex items-center justify-center rounded-full bg-white border border-gray-200 text-gray-400 hover:bg-gray-50 hover:text-gray-700 transition-colors">
+          <Link
+            to="/blog"
+            className="relative flex h-14 w-full items-center justify-center text-gray-400 smooth-control hover:bg-gray-950 hover:text-gray-200"
+            aria-label="Open help and articles"
+          >
             <HelpCircle className="w-4 h-4" />
-          </button>
+          </Link>
         </div>
 
-        {/* Dynamic Sub Navigation */}
-        <div className="flex-1 flex flex-col bg-white">
-          <div className="p-4 border-b border-gray-200 flex items-center gap-3 sticky top-0 bg-white z-10">
-            <div className="w-8 h-8 rounded-lg bg-blue-50 text-blue-700 border border-blue-100 flex items-center justify-center">
-              {categoryConfig?.icon}
+        <div className={`flex h-full flex-col overflow-hidden bg-gray-950 smooth-control ${showSubMenu ? 'w-48 opacity-100' : 'w-0 opacity-0 pointer-events-none'}`}>
+          <div className="flex items-center justify-between gap-3 border-b border-gray-800 p-4">
+            <div className="flex min-w-0 items-center gap-3">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-orange-100 bg-orange-500/10 text-orange-400">
+                {getCategoryIcon(categoryConfig.slug)}
+              </div>
+              <div className="min-w-0">
+                <h2 className="truncate text-sm font-semibold text-white">{categoryConfig.title}</h2>
+                <p className="eyebrow text-[11px]">{categoryConfig.count} tools</p>
+              </div>
             </div>
-            <div>
-              <h2 className="font-bold text-gray-900 text-sm tracking-tight">{categoryConfig?.title}</h2>
-              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{categoryConfig?.count} tools</p>
-            </div>
+            <button
+              onClick={() => setIsSubMenuCollapsed(true)}
+              className="hidden h-8 w-8 shrink-0 items-center justify-center rounded-lg text-gray-400 smooth-control hover:bg-gray-900 hover:text-white md:flex"
+              aria-label="Hide category panel"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
           </div>
 
           <div className="flex-1 overflow-y-auto py-2">
-            <SubNavItem to={`/tool/${activeCategory}-1`} number="1" title="Popular Tool 1" views="1.4M/mo" isHot />
-            <SubNavItem to={`/tool/${activeCategory}-2`} number="2" title="Essential Calc" views="1.1M/mo" />
-            <SubNavItem to={`/tool/${activeCategory}-3`} number="3" title="Basic Converter" views="760K/mo" />
-            <SubNavItem to={`/tool/${activeCategory}-4`} number="4" title="Advanced Tool" views="540K/mo" />
-            <SubNavItem to={`/tool/${activeCategory}-5`} number="5" title="Quick Formula" views="420K/mo" />
-            <SubNavItem to={`/tool/${activeCategory}-6`} number="6" title="Data Analyzer" views="310K/mo" />
+            {categoryConfig.tools.map((tool, index) => (
+              <SubNavItem
+                key={tool.slug}
+                to={`/tool/${tool.slug}`}
+                number={String(index + 1)}
+                title={tool.title}
+                views={tool.popularity}
+                isHot={tool.featured}
+                active={activeToolSlug === tool.slug}
+              />
+            ))}
           </div>
 
-            <div className="p-4 border-t border-gray-100 sticky bottom-0 bg-white">
-               <Link to={`/category/${activeCategory}`} className="w-full flex items-center justify-center gap-2 bg-gray-900 text-white py-2 rounded-lg text-xs font-bold hover:bg-black transition-colors active:scale-95 group">
-                 View all {categoryConfig?.count} tools
-                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-               </Link>
-            </div>
+          <div className="border-t border-gray-800 bg-gray-950 p-3">
+            <Link to={`/category/${categoryConfig.slug}`} className="group flex w-full items-center justify-center gap-2 rounded-lg bg-gray-950 py-2 text-xs font-semibold text-white smooth-control hover:bg-black active:scale-95">
+              View all tools
+              <ArrowRight className="w-4 h-4 smooth-control group-hover:translate-x-1" />
+            </Link>
           </div>
         </div>
-      </div>
+      </aside>
     </>
   );
 };
 
+const getCategoryIcon = (slug: CategorySlug) => {
+  if (slug === 'health') return <Heart className="w-4 h-4" />;
+  if (slug === 'finance') return <DollarSign className="w-4 h-4" />;
+  if (slug === 'age-date') return <Calendar className="w-4 h-4" />;
+  return <PlusSquare className="w-4 h-4" />;
+};
+
 const NavItem: React.FC<{ to: string; icon: React.ReactNode; label: string; active?: boolean }> = ({ to, icon, label, active }) => (
-  <Link to={to} className={`flex flex-col items-center gap-1 w-full cursor-pointer group transition-colors ${active ? 'text-blue-700' : 'text-gray-400 hover:text-gray-700'}`}>
-    <div className={`w-9 h-9 rounded-lg flex items-center justify-center transition-all duration-200 border ${active ? 'bg-blue-50 border-blue-200 text-blue-700' : 'bg-transparent border-transparent group-hover:bg-white group-hover:border-gray-200'}`}>
+  <Link
+    to={to}
+    className={`relative flex h-14 w-full items-center justify-center smooth-control ${active ? 'bg-gray-950 text-[#f4510b]' : 'text-gray-400 hover:bg-gray-950 hover:text-gray-200'}`}
+    title={label}
+  >
+    <span className={`absolute left-0 top-0 h-full w-[5px] rounded-r-full smooth-control ${active ? 'bg-[#f4510b]' : 'bg-transparent'}`} />
+    <span className={`flex h-9 w-9 items-center justify-center rounded-lg smooth-control ${active ? 'bg-orange-500/10' : 'group-hover:bg-gray-900'}`}>
       {icon}
-    </div>
-    <span className="text-[9px] font-bold text-center leading-tight tracking-wider uppercase">{label.replace(' ', '\n')}</span>
+    </span>
+    <span className="sr-only">{label}</span>
   </Link>
 );
 
-const SubNavItem: React.FC<{ to: string; number: string; title: string; views: string; isHot?: boolean }> = ({ to, number, title, views, isHot }) => (
-  <Link to={to} className="w-full px-4 py-3 flex items-start gap-3 hover:bg-gray-50 transition-colors text-left group">
-    <div className="w-5 h-5 rounded-full bg-gray-100 border border-gray-200 text-gray-500 group-hover:border-blue-200 group-hover:bg-blue-50 group-hover:text-blue-700 transition-colors text-[10px] flex items-center justify-center font-bold shrink-0 mt-0.5">
+const SubNavItem: React.FC<{ to: string; number: string; title: string; views: string; isHot?: boolean; active?: boolean }> = ({ to, number, title, views, isHot, active }) => (
+  <Link to={to} className={`group flex w-full items-start gap-3 px-4 py-3 text-left smooth-control ${active ? 'bg-orange-500/10' : 'hover:bg-gray-900'}`}>
+    <div className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border text-[10px] font-semibold smooth-control ${active ? 'border-orange-200 bg-gray-950 text-[#f4510b]' : 'border-gray-800 bg-gray-800 text-gray-400 group-hover:border-orange-200 group-hover:bg-orange-500/10 group-hover:text-orange-400'}`}>
       {number}
     </div>
-    <div className="flex-1 min-w-0">
+    <div className="min-w-0 flex-1">
       <div className="flex items-center gap-2">
-        <span className="font-bold text-xs text-gray-700 group-hover:text-[#3635B8] transition-colors truncate">{title}</span>
+        <span className={`truncate text-xs font-semibold smooth-control ${active ? 'text-[#f4510b]' : 'text-gray-200 group-hover:text-[#f4510b]'}`}>{title}</span>
         {isHot && (
-          <span className="px-1 py-0.5 rounded text-[8px] font-black tracking-widest uppercase bg-red-100 text-red-600 border border-red-200 leading-none">HOT</span>
+          <span className="rounded border border-orange-200 bg-orange-500/10 px-1 py-0.5 text-[8px] font-semibold uppercase leading-none text-orange-400">HOT</span>
         )}
       </div>
-      <span className="text-[10px] font-medium text-gray-400 block mt-0.5">{views}</span>
+      <span className="mt-0.5 block text-[10px] font-medium text-gray-400">{views}</span>
     </div>
   </Link>
 );

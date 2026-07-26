@@ -1,49 +1,84 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Clock, ArrowRight, TrendingUp } from 'lucide-react';
+import { ArrowRight, BookOpen, Clock, TrendingUp } from 'lucide-react';
+import PageHeader from '../components/PageHeader';
+import { articles, categories, findCategory } from '../data/content';
+import { Link } from '../lib/router';
+import { useSearchParams } from '../lib/router-hooks';
 
 const BlogArchiveTemplate: React.FC = () => {
+  const [searchParams] = useSearchParams();
+  const activeCategory = findCategory(searchParams.get('category') ?? undefined);
+  const visibleArticles = activeCategory
+    ? articles.filter((article) => article.categorySlug === activeCategory.slug)
+    : articles;
+
   return (
-    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-12">
-      <div className="text-center max-w-2xl mx-auto py-6">
-        <h1 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tight mb-3">Latest Insights</h1>
-        <p className="text-gray-500 text-sm font-medium">Discover tips, tutorials, and expert knowledge on finance, health, and mathematics.</p>
+    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-12">
+      <PageHeader
+        eyebrow={activeCategory ? `${activeCategory.title} editorial` : 'Editorial library'}
+        title={activeCategory ? `${activeCategory.title} Guides` : 'Latest Calculation Insights'}
+        description="Practical, professional guidance for using calculators confidently across finance, health, maths, and date planning."
+        icon={<BookOpen className="w-5 h-5" />}
+        align="center"
+        stats={[
+          { label: 'Articles', value: String(visibleArticles.length) },
+          { label: 'Categories', value: String(categories.length) },
+        ]}
+      />
+
+      <div className="flex flex-wrap justify-center gap-2">
+        <FilterLink to="/blog" active={!activeCategory}>All</FilterLink>
+        {categories.map((category) => (
+          <FilterLink key={category.slug} to={`/blog?category=${category.slug}`} active={activeCategory?.slug === category.slug}>
+            {category.title}
+          </FilterLink>
+        ))}
       </div>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-        {[1, 2, 3, 4, 5, 6].map((i) => (
-          <Link to={`/blog/post-${i}`} key={i} className="group flex flex-col bg-white rounded-2xl border border-gray-200 overflow-hidden hover:-translate-y-1 hover:border-blue-200 transition-all duration-300 no-shadow">
-            <div className="h-40 bg-gray-100 relative overflow-hidden">
-              <img
-                src={`https://images.unsplash.com/photo-${1550000000000 + i * 10000}?auto=format&fit=crop&w=800&q=80`}
-                alt="Blog cover"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = 'data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22800%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20400%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_18a00000000%20text%20%7B%20fill%3A%23A3A3A3%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A40pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_18a00000000%22%3E%3Crect%20width%3D%22800%22%20height%3D%22400%22%20fill%3D%22%23F3F4F6%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22300%22%20y%3D%22220%22%3EImage%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E';
-                }}
-              />
-              {i === 1 && (
-                <div className="absolute top-3 left-3 z-20 bg-white border border-gray-200 text-[#3635B8] text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded-md flex items-center gap-1">
-                  <TrendingUp className="w-3 h-3" /> Popular
+        {visibleArticles.map((article, index) => {
+          const category = findCategory(article.categorySlug);
+
+          return (
+            <Link to={`/blog/${article.slug}`} key={article.slug} className="group panel-surface flex flex-col overflow-hidden smooth-control hover:-translate-y-0.5 hover:border-orange-200">
+              <div className="h-44 bg-gray-800 relative overflow-hidden">
+                <img
+                  src={article.image}
+                  alt={article.title}
+                  className="h-full w-full object-cover smooth-control group-hover:scale-[1.03]"
+                />
+                {index === 0 && (
+                  <div className="absolute left-3 top-3 z-20 flex items-center gap-1 rounded-md border border-gray-800 bg-gray-950 px-2 py-1 text-[10px] font-semibold uppercase text-[#f4510b]">
+                    <TrendingUp className="w-3 h-3" /> Featured
+                  </div>
+                )}
+              </div>
+              <div className="flex flex-1 flex-col p-5">
+                <div className="mb-3 flex flex-wrap items-center gap-2">
+                  <span className="rounded bg-orange-500/10 px-2 py-0.5 text-[11px] font-semibold text-orange-400">{category?.title ?? 'Guide'}</span>
+                  <span className="flex items-center gap-1 text-[11px] font-semibold text-gray-400"><Clock className="w-3 h-3" /> {article.readTime}</span>
                 </div>
-              )}
-            </div>
-            <div className="p-5 flex-1 flex flex-col">
-              <div className="flex items-center gap-3 text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">
-                <span className="text-blue-700 bg-blue-50 border border-blue-100 px-2 py-0.5 rounded">Finance</span>
-                <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> 5 min read</span>
+                <h2 className="text-lg font-semibold leading-snug text-black smooth-control group-hover:text-[#f4510b]">{article.title}</h2>
+                <p className="mt-2 line-clamp-2 flex-1 text-xs font-semibold leading-5 text-black/50">{article.excerpt}</p>
+                <div className="mt-5 flex items-center text-xs font-semibold text-[#f4510b]">
+                  Read Article <ArrowRight className="w-3.5 h-3.5 ml-1 smooth-control group-hover:translate-x-1" />
+                </div>
               </div>
-              <h2 className="text-lg font-black text-gray-900 mb-2 group-hover:text-[#3635B8] transition-colors line-clamp-2 leading-tight">How to calculate your true net worth in 2024</h2>
-              <p className="text-gray-500 text-xs font-medium leading-relaxed mb-5 line-clamp-2 flex-1">A comprehensive guide to understanding your assets, liabilities, and the hidden factors that affect your wealth over time.</p>
-              <div className="flex items-center text-xs font-bold text-[#3635B8] group-hover:text-blue-800 transition-colors mt-auto">
-                Read Article <ArrowRight className="w-3.5 h-3.5 ml-1 transition-transform group-hover:translate-x-1" />
-              </div>
-            </div>
-          </Link>
-        ))}
+            </Link>
+          );
+        })}
       </div>
     </div>
   );
 };
+
+const FilterLink: React.FC<{ to: string; active?: boolean; children: React.ReactNode }> = ({ to, active, children }) => (
+  <Link
+    to={to}
+    className={`rounded-[14px] border px-3 py-2 text-xs font-semibold smooth-control ${active ? 'border-[#f4510b] bg-orange-500/10 text-[#f4510b]' : 'border-black/10 bg-white text-black/60 hover:border-orange-200 hover:text-[#f4510b]'}`}
+  >
+    {children}
+  </Link>
+);
 
 export default BlogArchiveTemplate;
