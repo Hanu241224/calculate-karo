@@ -30,17 +30,19 @@ const CategoryTemplate: React.FC = () => {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {[1, 2, 3, 4, 5, 6].map((i) => (
-            <Link to={`/tool/calculator-${i}`} key={i} className="group relative bg-white p-5 rounded-2xl border border-gray-200 no-shadow hover:-translate-y-1 hover:border-blue-200 transition-all duration-300 overflow-hidden block">
-              <div className="absolute top-0 right-0 p-5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 translate-x-4 group-hover:translate-x-0">
+            <Link to={`/tool/calculator-${i}`} key={i} className="block p-4 rounded-2xl border border-gray-200 transition-all duration-300 cursor-pointer group no-shadow hover:-translate-y-1 bg-white hover:border-blue-200 relative overflow-hidden">
+              <div className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 translate-x-4 group-hover:translate-x-0">
                 <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center">
                   <ArrowRight className="w-4 h-4 text-[#3635B8]" />
                 </div>
               </div>
-              <div className="w-12 h-12 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center mb-4 group-hover:bg-blue-50 group-hover:border-blue-100 group-hover:scale-110 transition-all duration-300">
-                <Calculator className="w-6 h-6 text-gray-700 group-hover:text-[#3635B8] transition-colors" />
+              <div className="flex justify-between items-start mb-4">
+                <div className="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center transition-transform duration-300 group-hover:scale-110 group-hover:bg-blue-50">
+                  <Calculator className="w-5 h-5 text-gray-600 transition-colors duration-300 group-hover:text-blue-600" />
+                </div>
               </div>
-              <h3 className="text-base font-bold text-gray-900 mb-1.5 group-hover:text-[#3635B8] transition-colors">{categoryName} Tool {i}</h3>
-              <p className="text-gray-500 text-xs font-medium leading-relaxed">Calculate complex {categoryName.toLowerCase()} metrics instantly with our AI-powered engine.</p>
+              <h3 className="font-bold text-base tracking-tight text-gray-900 mb-1.5 group-hover:text-[#3635B8] transition-colors duration-300">{categoryName} Tool {i}</h3>
+              <p className="text-gray-500 text-[11px] font-medium leading-relaxed pr-6">Calculate complex {categoryName.toLowerCase()} metrics instantly with our AI-powered engine.</p>
             </Link>
           ))}
         </div>

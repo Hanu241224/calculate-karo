@@ -36,7 +36,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isMobileMenuOpen, setIsMobileMenuOpen
       <div className={`w-60 bg-white border-r border-gray-200 flex flex-col fixed left-0 top-14 bottom-0 z-40 overflow-hidden no-shadow transition-transform duration-300 md:translate-x-0 ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className="flex h-full">
           {/* Main Icon Navigation */}
-          <div className="w-14 border-r border-gray-200 flex flex-col items-center py-4 bg-gray-50/50 z-10">
+          <div className="w-14 flex flex-col items-center py-4 bg-gray-50/50 z-10">
           <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-gray-300 text-gray-500 mb-6 hover:bg-white hover:text-gray-900 transition-colors active:scale-95 bg-white">
             <ChevronLeft className="w-4 h-4" />
           </button>

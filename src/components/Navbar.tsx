@@ -12,14 +12,14 @@ const Navbar: React.FC<NavbarProps> = ({ isMobileMenuOpen, setIsMobileMenuOpen }
 
   return (
     <nav className="h-14 border-b border-gray-300 bg-white/95 backdrop-blur-xl flex items-center justify-between px-4 md:px-5 fixed top-0 w-full z-50 transition-colors">
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2">
         <button
-          className="md:hidden p-1.5 -ml-1.5 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+          className="md:hidden p-1 -ml-1 text-gray-600 hover:bg-gray-100 rounded transition-colors"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
           <Menu className="w-5 h-5" />
         </button>
-        <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+        <Link to="/" className="flex items-center gap-1.5 hover:opacity-80 transition-opacity">
         <div className="w-8 h-8 rounded-full border-[1.5px] border-orange-500 flex items-center justify-center text-xs font-bold text-gray-800 bg-white">
           <span className="text-blue-600">C</span>k
         </div>
@@ -116,11 +116,11 @@ const Navbar: React.FC<NavbarProps> = ({ isMobileMenuOpen, setIsMobileMenuOpen }
             </div>
           </div>
         </div>
-        <Link to="/tool/ask-ai" className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-[#3635B8] bg-blue-50 border border-blue-100 rounded-full hover:bg-blue-100 transition-colors">
-          <Sparkles className="h-3.5 w-3.5" />
+        <Link to="/tool/ask-ai" className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-bold text-[#3635B8] bg-blue-50 border border-blue-100 rounded hover:bg-blue-100 transition-colors">
+          <Sparkles className="h-3 w-3" />
           Ask AI
         </Link>
-        <button className="px-3 md:px-4 py-1.5 text-xs font-bold text-white bg-gray-900 rounded-full hover:bg-black transition-colors active:scale-95 whitespace-nowrap">
+        <button className="px-3 py-1 text-[11px] font-bold text-white bg-gray-900 rounded hover:bg-black transition-colors active:scale-95 whitespace-nowrap">
           Sign in
         </button>
       </div>
