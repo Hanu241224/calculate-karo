@@ -44,14 +44,14 @@ const Categories: React.FC = () => {
 };
 
 const CategoryCard: React.FC<{ to: string; icon: React.ReactNode; count: string; title: string; isActive?: boolean }> = ({ to, icon, count, title, isActive }) => (
-  <Link to={to} className={`block p-5 rounded-3xl border transition-all duration-300 cursor-pointer group ${isActive ? 'bg-gradient-to-br from-[#F8F9FE] to-white border-blue-200 shadow-md shadow-blue-900/5 hover:shadow-lg' : 'bg-white border-gray-100 hover:border-blue-100 hover:shadow-xl hover:shadow-blue-900/5 hover:-translate-y-1'}`}>
-    <div className="flex justify-between items-start mb-6">
-      <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110 ${isActive ? 'bg-gradient-to-br from-blue-600 to-[#3635B8] text-white shadow-lg shadow-blue-900/20' : 'bg-gray-50/80 group-hover:bg-blue-50'}`}>
-        {isActive ? <div className="text-white [&>svg]:w-6 [&>svg]:h-6">{icon}</div> : <div className="[&>svg]:w-6 [&>svg]:h-6 transition-colors duration-300 group-hover:text-blue-600">{icon}</div>}
+  <Link to={to} className={`block p-4 rounded-2xl border transition-all duration-300 cursor-pointer group no-shadow hover:-translate-y-1 ${isActive ? 'bg-blue-50/50 border-blue-200' : 'bg-white border-gray-200 hover:border-blue-200'}`}>
+    <div className="flex justify-between items-start mb-4">
+      <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110 ${isActive ? 'bg-[#3635B8] text-white' : 'bg-gray-50 group-hover:bg-blue-50'}`}>
+        {isActive ? <div className="text-white [&>svg]:w-5 [&>svg]:h-5">{icon}</div> : <div className="[&>svg]:w-5 [&>svg]:h-5 transition-colors duration-300 group-hover:text-blue-600">{icon}</div>}
       </div>
-      <span className={`text-xs font-bold px-3 py-1.5 rounded-full transition-colors duration-300 ${isActive ? 'text-blue-700 bg-blue-100/50' : 'text-gray-400 bg-gray-50 group-hover:bg-blue-50 group-hover:text-blue-600'}`}>{count}</span>
+      <span className={`text-[10px] font-bold px-2 py-1 rounded-md transition-colors duration-300 ${isActive ? 'text-blue-700 bg-blue-100/50' : 'text-gray-500 bg-gray-100 group-hover:bg-blue-50 group-hover:text-blue-600'}`}>{count} Tools</span>
     </div>
-    <div className={`font-bold text-lg tracking-tight transition-colors duration-300 ${isActive ? 'text-[#3635B8]' : 'text-gray-900 group-hover:text-[#3635B8]'}`}>{title}</div>
+    <div className={`font-bold text-base tracking-tight transition-colors duration-300 ${isActive ? 'text-[#3635B8]' : 'text-gray-900 group-hover:text-[#3635B8]'}`}>{title}</div>
   </Link>
 );
 

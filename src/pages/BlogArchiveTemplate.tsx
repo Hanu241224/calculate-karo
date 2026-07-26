@@ -4,17 +4,16 @@ import { Clock, ArrowRight, TrendingUp } from 'lucide-react';
 
 const BlogArchiveTemplate: React.FC = () => {
   return (
-    <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-12">
-      <div className="text-center max-w-2xl mx-auto py-8">
-        <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight mb-4">Latest Insights</h1>
-        <p className="text-gray-500 text-lg leading-relaxed">Discover tips, tutorials, and expert knowledge on finance, health, and mathematics.</p>
+    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-12">
+      <div className="text-center max-w-2xl mx-auto py-6">
+        <h1 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tight mb-3">Latest Insights</h1>
+        <p className="text-gray-500 text-sm font-medium">Discover tips, tutorials, and expert knowledge on finance, health, and mathematics.</p>
       </div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
         {[1, 2, 3, 4, 5, 6].map((i) => (
-          <Link to={`/blog/post-${i}`} key={i} className="group flex flex-col bg-white rounded-3xl border border-gray-100 overflow-hidden hover:shadow-2xl hover:shadow-blue-900/10 hover:-translate-y-1.5 transition-all duration-300">
-            <div className="h-48 bg-gray-100 relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          <Link to={`/blog/post-${i}`} key={i} className="group flex flex-col bg-white rounded-2xl border border-gray-200 overflow-hidden hover:-translate-y-1 hover:border-blue-200 transition-all duration-300 no-shadow">
+            <div className="h-40 bg-gray-100 relative overflow-hidden">
               <img
                 src={`https://images.unsplash.com/photo-${1550000000000 + i * 10000}?auto=format&fit=crop&w=800&q=80`}
                 alt="Blog cover"
@@ -24,20 +23,20 @@ const BlogArchiveTemplate: React.FC = () => {
                 }}
               />
               {i === 1 && (
-                <div className="absolute top-4 left-4 z-20 bg-white/90 backdrop-blur text-blue-600 text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-sm">
-                  <TrendingUp className="w-3.5 h-3.5" /> Popular
+                <div className="absolute top-3 left-3 z-20 bg-white border border-gray-200 text-[#3635B8] text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded-md flex items-center gap-1">
+                  <TrendingUp className="w-3 h-3" /> Popular
                 </div>
               )}
             </div>
-            <div className="p-6 flex-1 flex flex-col">
-              <div className="flex items-center gap-4 text-xs font-medium text-gray-400 mb-3">
-                <span className="text-[#3635B8] bg-blue-50 px-2.5 py-1 rounded-md">Finance</span>
-                <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" /> 5 min read</span>
+            <div className="p-5 flex-1 flex flex-col">
+              <div className="flex items-center gap-3 text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">
+                <span className="text-blue-700 bg-blue-50 border border-blue-100 px-2 py-0.5 rounded">Finance</span>
+                <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> 5 min read</span>
               </div>
-              <h2 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-[#3635B8] transition-colors line-clamp-2">How to calculate your true net worth in 2024</h2>
-              <p className="text-gray-500 text-sm leading-relaxed mb-6 line-clamp-2 flex-1">A comprehensive guide to understanding your assets, liabilities, and the hidden factors that affect your wealth over time.</p>
-              <div className="flex items-center text-sm font-semibold text-[#3635B8] group-hover:text-blue-800 transition-colors mt-auto">
-                Read Article <ArrowRight className="w-4 h-4 ml-1.5 transition-transform group-hover:translate-x-1" />
+              <h2 className="text-lg font-black text-gray-900 mb-2 group-hover:text-[#3635B8] transition-colors line-clamp-2 leading-tight">How to calculate your true net worth in 2024</h2>
+              <p className="text-gray-500 text-xs font-medium leading-relaxed mb-5 line-clamp-2 flex-1">A comprehensive guide to understanding your assets, liabilities, and the hidden factors that affect your wealth over time.</p>
+              <div className="flex items-center text-xs font-bold text-[#3635B8] group-hover:text-blue-800 transition-colors mt-auto">
+                Read Article <ArrowRight className="w-3.5 h-3.5 ml-1 transition-transform group-hover:translate-x-1" />
               </div>
             </div>
           </Link>

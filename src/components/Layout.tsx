@@ -6,10 +6,10 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <div className="min-h-screen bg-[#F9F9FA]">
       <Navbar />
-      <div className="flex pt-16">
+      <div className="flex pt-14">
         <Sidebar />
-        <main className="flex-1 ml-64 p-4 md:p-8 min-h-[calc(100vh-4rem)]">
-          <div className="max-w-7xl mx-auto">
+        <main className="flex-1 ml-60 p-4 md:p-6 min-h-[calc(100vh-3.5rem)]">
+          <div className="max-w-[1400px] mx-auto">
             {children}
           </div>
         </main>
