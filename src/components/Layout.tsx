@@ -16,6 +16,7 @@ import { Link } from '../lib/router';
 import { useLocation } from '../lib/router-hooks';
 import HeaderSearch from './HeaderSearch';
 import Footer from './Footer';
+import Breadcrumbs from './Breadcrumbs';
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isSubMenuCollapsed, setIsSubMenuCollapsed] = useState(true);
@@ -23,6 +24,24 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isWarmMode, setIsWarmMode] = useState(true);
   const location = useLocation();
   const isAiPage = location.pathname === '/ai' || location.pathname === '/tool/ask-ai';
+
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
+      }
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
 
   const activeCategory = useMemo(() => {
     if (location.pathname.includes('finance')) return 'finance';
@@ -43,7 +62,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
   return (
     <div className={`workspace-page site-platform ${isWarmMode ? '' : 'workspace-page--dim'}`}>
-      <header className="workspace-header site-platform__header">
+      <header className={`workspace-header site-platform__header transition-transform duration-300 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
         <div className="workspace-header__left">
           <Link to="/" className="workspace-logo" aria-label="Calculate Karo home">
             <span className="workspace-brand__mark"><Calculator size={17} strokeWidth={2.2} /></span>
@@ -142,8 +161,11 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           </div>
         </aside>
 
-        <section className="site-workspace-main" aria-label="Page content">
-          {children}
+        <section className="site-workspace-main flex flex-col" aria-label="Page content">
+          <Breadcrumbs />
+          <div className="flex-1">
+            {children}
+          </div>
           <Footer />
         </section>
       </main>

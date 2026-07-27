@@ -83,7 +83,7 @@ const ToolTemplate: React.FC = () => {
 
 const ToolProductPage: React.FC<{
   tool: Tool;
-  categoryTitle: string;
+  categoryTitle?: string;
   values: Record<string, string>;
   result: ToolResult | null;
   resultMode: string;
@@ -98,7 +98,6 @@ const ToolProductPage: React.FC<{
   onResultModeChange: (mode: string) => void;
 }> = ({
   tool,
-  categoryTitle,
   values,
   result,
   resultMode,
@@ -120,13 +119,6 @@ const ToolProductPage: React.FC<{
         <div className="grid lg:grid-cols-2">
           <div className="relative bg-[#ff782f] px-5 py-7 md:px-10 md:py-10">
             <div className="absolute right-[-9px] top-1/2 hidden h-0 w-0 -translate-y-1/2 border-y-[10px] border-l-[10px] border-y-transparent border-l-[#ff782f] lg:block" />
-            <div className="mb-7 flex flex-wrap items-center gap-2 text-[11px] font-bold text-black/55">
-              <Link to="/" className="hover:text-black">Home</Link>
-              <span>/</span>
-              <Link to={`/category/${tool.categorySlug}`} className="hover:text-black">{categoryTitle}</Link>
-              <span>/</span>
-              <span className="text-black">{tool.title}</span>
-            </div>
 
             <div className="mb-6 flex items-center gap-3">
               <span className="flex h-10 w-10 items-center justify-center rounded-full bg-black text-white">{categoryIcon}</span>
