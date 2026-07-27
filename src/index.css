@@ -100,7 +100,7 @@
   min-height: 100vh;
   width: 100%;
   box-sizing: border-box;
-  overflow: hidden;
+  overflow: auto;
   background:
     linear-gradient(180deg, var(--workspace-orange) 0 44%, var(--workspace-orange-deep) 74%, var(--workspace-orange-dark) 100%);
   color: var(--workspace-ink);
@@ -125,6 +125,9 @@
   align-items: center;
   gap: 18px;
   padding: 0 22px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
 }
 
 .workspace-header__left {
@@ -141,7 +144,7 @@
   min-width: 0;
   align-items: center;
   gap: 9px;
-  overflow: hidden;
+  overflow: auto;
   color: #050505;
   transition: opacity 180ms ease;
 }
@@ -157,7 +160,7 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  overflow: hidden;
+  overflow: auto;
   border-radius: 20px;
   background: #9c210d;
   padding: 0 18px;
@@ -336,11 +339,11 @@
 
 .workspace-frame {
   display: grid;
-  height: calc(100vh - 60px);
+  min-height: calc(100vh - 60px);
   min-height: 600px;
   margin: 0;
   grid-template-columns: 60px minmax(0, 1fr);
-  overflow: hidden;
+  overflow: auto;
   border-radius: 20px 20px 0 0;
   background: var(--workspace-paper);
   color: var(--workspace-ink);
@@ -357,7 +360,7 @@
   width: 60px;
   max-width: 60px;
   grid-template-columns: 60px 0;
-  overflow: hidden;
+  overflow: auto;
   border: none;
   border-radius: 20px 0 0 0;
   transition: width 180ms ease, max-width 180ms ease, grid-template-columns 180ms ease;
@@ -449,7 +452,7 @@
 .workspace-sidebar__panel {
   min-width: 0;
   width: 0;
-  overflow: hidden;
+  overflow: auto;
   opacity: 0;
   transform: translateX(-16px);
   pointer-events: none;
@@ -500,7 +503,7 @@
 
 .workspace-panel-content {
   height: calc(100% - 72px);
-  overflow-y: auto;
+  overflow-y: visible;
   padding: 12px 16px 22px;
 }
 
@@ -548,12 +551,12 @@
 }
 
 .site-workspace-frame {
-  min-height: calc(100vh - 60px);
+  min-min-height: calc(100vh - 60px);
 }
 
 .site-workspace-main {
   min-width: 0;
-  overflow-y: auto;
+  overflow-y: visible;
   padding: 14px 14px 0;
   background: var(--workspace-paper);
   color: var(--workspace-ink);
@@ -583,7 +586,7 @@
   min-height: 430px;
   grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.72fr);
   gap: 28px;
-  overflow: hidden;
+  overflow: auto;
   border-radius: 20px;
   background:
     linear-gradient(120deg, #ff6f2a 0%, #ff310d 46%, #75230d 100%);
@@ -647,6 +650,7 @@
   min-height: 48px;
   background: #050505;
   padding: 0 22px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
   color: white;
 }
 
@@ -915,7 +919,7 @@
 }
 
 .home-blog-card {
-  overflow: hidden;
+  overflow: auto;
 }
 
 .home-blog-card img {
@@ -1459,7 +1463,7 @@
   border: 1px solid rgb(0 0 0 / 0.1);
   border-radius: 20px;
   background: #f8f6f1;
-  overflow: hidden;
+  overflow: auto;
 }
 
 .search-group__heading {
@@ -1800,7 +1804,7 @@
   margin: 0 auto;
   flex-direction: column;
   gap: 14px;
-  overflow-y: auto;
+  overflow-y: visible;
   padding: 52px 28px 24px;
 }
 
@@ -2151,7 +2155,7 @@
 
   .workspace-frame {
     position: relative;
-    height: calc(100vh - 60px);
+    min-height: calc(100vh - 60px);
     min-height: 540px;
     margin: 0;
     grid-template-columns: 60px minmax(0, 1fr);
@@ -2302,7 +2306,7 @@
   .workspace-header__nav .workspace-nav-link {
     width: 40px;
     justify-content: center;
-    overflow: hidden;
+    overflow: auto;
     color: transparent;
     gap: 0;
   }
@@ -2314,7 +2318,7 @@
 
   .workspace-sign-in {
     width: 40px;
-    overflow: hidden;
+    overflow: auto;
     color: transparent;
     padding: 0;
   }
