@@ -117,8 +117,8 @@ const ToolProductPage: React.FC<{
   return (
     <div className="bg-[#f5f2eb] text-[#101014]">
       <section className="min-h-full overflow-hidden bg-[#f5f2eb]">
-        <div className="grid lg:grid-cols-2 gap-[20px]">
-          <div className="relative bg-[#ff782f] px-5 py-7 md:px-10 md:py-10 rounded-br-2xl lg:rounded-r-2xl">
+        <div className="grid lg:grid-cols-2">
+          <div className="relative bg-[#ff782f] px-5 py-7 md:px-10 md:py-10">
             <div className="absolute right-[-9px] top-1/2 hidden h-0 w-0 -translate-y-1/2 border-y-[10px] border-l-[10px] border-y-transparent border-l-[#ff782f] lg:block" />
             <div className="mb-7 flex flex-wrap items-center gap-2 text-[11px] font-bold text-black/55">
               <Link to="/" className="hover:text-black">Home</Link>
@@ -197,7 +197,7 @@ const ToolProductPage: React.FC<{
             {status && <p className="mt-5 text-xs font-bold text-white/80">{status}</p>}
           </div>
 
-          <div className="bg-[#f8f6f1] px-5 py-7 md:px-10 md:py-10 rounded-bl-2xl lg:rounded-l-2xl border border-black/5">
+          <div className="bg-[#f8f6f1] px-5 py-7 md:px-10 md:py-10">
             <div className="mb-5 text-xl font-medium">Your Result</div>
             <div className="grid gap-8 md:grid-cols-[1fr_0.9fr]">
               <div>
@@ -251,9 +251,9 @@ const ToolProductPage: React.FC<{
           </div>
         </div>
 
-        <div className="h-px w-full bg-black/15" />
+        <div className="h-[20px] w-full bg-transparent" />
 
-        <section className="bg-[#f7f5f0] px-5 py-6 md:px-10 md:py-8">
+        <section className="bg-[#f7f5f0] px-5 py-6 md:px-10 md:py-8 rounded-2xl border border-black/5 mx-5 md:mx-10 mb-10">
           <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
             <div>
               <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[#f4510b]">Next best steps</p>
