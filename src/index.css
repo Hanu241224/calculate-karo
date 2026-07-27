@@ -342,7 +342,7 @@
   grid-template-columns: 60px minmax(0, 1fr);
   overflow: auto;
   border-radius: 20px 20px 0 0;
-  background: var(--workspace-paper);
+  background: #f4f4f4;
   color: var(--workspace-ink);
   transition: background-color 220ms ease, color 220ms ease;
 }
@@ -375,7 +375,7 @@
   display: flex;
   flex-direction: column;
   border-right: none;
-  background: var(--workspace-paper);
+  background: #f4f4f4;
 }
 
 .workspace-panel-toggle {
@@ -544,7 +544,7 @@
 .workspace-canvas {
   position: relative;
   min-width: 0;
-  background: var(--workspace-paper);
+  background: #f4f4f4;
 }
 
 .site-workspace-frame {
@@ -555,7 +555,7 @@
   min-width: 0;
   overflow-y: visible;
   padding: 14px 14px 0;
-  background: var(--workspace-paper);
+  background: #f4f4f4;
   color: var(--workspace-ink);
 }
 
@@ -2193,7 +2193,7 @@
 
   .workspace-sidebar__panel {
     height: 100%;
-    background: var(--workspace-paper);
+    background: #f4f4f4;
     box-shadow: 20px 0 40px rgb(0 0 0 / 0.12);
   }
 
