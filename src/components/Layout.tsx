@@ -30,7 +30,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
+      const currentScrollY = document.querySelector(".site-workspace-main")?.scrollTop || 0;
       if (currentScrollY > lastScrollY && currentScrollY > 100) {
         setIsVisible(false);
       } else {
@@ -39,8 +39,8 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       setLastScrollY(currentScrollY);
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    document.querySelector(".site-workspace-main")?.addEventListener('scroll', handleScroll, { passive: true });
+    return () => document.querySelector(".site-workspace-main")?.removeEventListener('scroll', handleScroll);
   }, [lastScrollY]);
 
   const activeCategory = useMemo(() => {
