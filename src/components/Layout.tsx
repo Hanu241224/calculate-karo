@@ -31,11 +31,14 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY || 0;
-      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+
+      // Smart sticky logic: hide on scroll down (if beyond header height), show on scroll up
+      if (currentScrollY > lastScrollY && currentScrollY > 60) {
         setIsVisible(false);
       } else {
         setIsVisible(true);
       }
+
       setLastScrollY(currentScrollY);
     };
 
@@ -163,7 +166,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
         <section className="site-workspace-main flex flex-col" aria-label="Page content">
           <Breadcrumbs />
-          <div className="flex-1">
+          <div className="flex-1 p-4 md:p-8 pt-6">
             {children}
           </div>
           <Footer />
