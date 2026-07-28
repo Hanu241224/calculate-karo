@@ -64,7 +64,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   }
 
   return (
-    <div className={`workspace-page site-platform ${isWarmMode ? '' : 'workspace-page--dim'}`}>
+    <div className={`workspace-page site-platform ${isWarmMode ? '' : 'workspace-page--dim'} ${isVisible ? '' : 'workspace-page--header-hidden'}`}>
       <header className={`workspace-header site-platform__header transition-transform duration-300 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
         <div className="workspace-header__left">
           <Link to="/" className="workspace-logo" aria-label="Calculate Karo home">
