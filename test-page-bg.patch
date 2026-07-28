@@ -1,0 +1,11 @@
+--- src/index.css
++++ src/index.css
+@@ -99,7 +99,7 @@
+   --workspace-paper: #fff;
+   --workspace-composer: #f4f4f4;
+
+-  background-color: var(--workspace-paper);
++  background-color: #fff;
+   background-image:
+     linear-gradient(285deg, var(--workspace-paper) 0 46%, transparent 100%),
+     linear-gradient(180deg, var(--workspace-orange) 0 44%, var(--workspace-orange-deep) 74%, var(--workspace-orange-dark) 100%);

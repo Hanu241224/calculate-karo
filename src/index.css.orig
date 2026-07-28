@@ -100,7 +100,7 @@
   min-height: 100vh;
   width: 100%;
   box-sizing: border-box;
-  background-color: var(--workspace-paper);
+
   background:
     linear-gradient(180deg, var(--workspace-orange) 0 44%, var(--workspace-orange-deep) 74%, var(--workspace-orange-dark) 100%);
   color: var(--workspace-ink);
